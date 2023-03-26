@@ -49,26 +49,22 @@ public class DataAccessor : MonoBehaviour
             {
                 GameObject countryObject = Instantiate(jarPrefab, datasetCollection.transform);
                 CountryData dataComponent = countryObject.GetComponent<CountryData>();
-                // = int.Parse(countryData[0]);
+
                 string countryName = countryData[1];
                 string surveyYear = countryData[2];
                 dataComponent.setPreliminaryData(countryId, countryName, surveyYear);
                 countryObject.name = countryName;
 
                 int paidWorkTotal = int.Parse(countryData[3]);
-                // other parsing here
                 dataComponent.setPaidWorkTimes(paidWorkTotal);
 
                 int unpaidWorkTotal = int.Parse(countryData[7]);
-                // other parsing here
                 dataComponent.setUnpaidWorkTimes(unpaidWorkTotal);
 
                 int personalCareTotal = int.Parse(countryData[10]);
-                // other parsing here
                 dataComponent.setPersonalCareTimes(personalCareTotal);
 
                 int leisureTotal = int.Parse(countryData[14]);
-                // other parsing here
                 dataComponent.setLeisureTimes(leisureTotal);
 
                 int otherTotal = int.Parse(countryData[18]);
@@ -82,10 +78,11 @@ public class DataAccessor : MonoBehaviour
                 float lifeSatisfaction = float.Parse(countryData[26]);
                 dataComponent.setBetterLifeIndexData(
                     disposableIncome, employmentRate, supportNetwork,
-                    lifeExpectancy, selfReportedHealth, lifeSatisfaction);
+                    lifeExpectancy, selfReportedHealth, lifeSatisfaction
+                );
 
-                float workToLeisureRatio = (float)paidWorkTotal / leisureTotal;
-                dataComponent.setWorkToLeisureRatio(workToLeisureRatio);
+                float workToLeisureRatio = (float) paidWorkTotal / leisureTotal;
+                dataComponent.setWorkToLeisureRatio (workToLeisureRatio);
 
                 // add to list so that we know min and stuff
                 lifeSatisfactionList.Add(lifeSatisfaction);
