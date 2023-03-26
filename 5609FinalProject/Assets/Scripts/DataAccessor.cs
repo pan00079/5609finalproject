@@ -7,13 +7,12 @@ using UnityEngine;
 public class DataAccessor : MonoBehaviour
 {
     public string csvDataPath;
-
     public List<GameObject> listOfCountries;
     public GameObject jarPrefab;
+
     // serves as a parent for all individual country data
     public GameObject datasetCollection;
     public GameObject dataProcessor;
-
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +32,8 @@ public class DataAccessor : MonoBehaviour
         
     }
 
+    // Takes in country CSV data (Time Use + Better Life Index) and
+    // instantiates a jar, populating it with its respective country data.
     void parseCountryData(string[] csvDataFile)
     {
         List<float> lifeSatisfactionList = new List<float>();
@@ -58,27 +59,27 @@ public class DataAccessor : MonoBehaviour
                 // other parsing here
                 dataComponent.setPaidWorkTimes(paidWorkTotal);
 
-                int unpaidWorkTotal = int.Parse(countryData[8]);
+                int unpaidWorkTotal = int.Parse(countryData[7]);
                 // other parsing here
                 dataComponent.setUnpaidWorkTimes(unpaidWorkTotal);
 
-                int personalCareTotal = int.Parse(countryData[12]);
+                int personalCareTotal = int.Parse(countryData[10]);
                 // other parsing here
                 dataComponent.setPersonalCareTimes(personalCareTotal);
 
-                int leisureTotal = int.Parse(countryData[16]);
+                int leisureTotal = int.Parse(countryData[14]);
                 // other parsing here
                 dataComponent.setLeisureTimes(leisureTotal);
 
-                int otherTotal = int.Parse(countryData[21]);
+                int otherTotal = int.Parse(countryData[18]);
                 dataComponent.setOtherTime(otherTotal);
 
-                int disposableIncome = int.Parse(countryData[22]);
-                int employmentRate = int.Parse(countryData[23]);
-                int supportNetwork = int.Parse(countryData[24]);
-                float lifeExpectancy = float.Parse(countryData[25]);
-                int selfReportedHealth = int.Parse(countryData[26]);
-                float lifeSatisfaction = float.Parse(countryData[27]);
+                int disposableIncome = int.Parse(countryData[21]);
+                int employmentRate = int.Parse(countryData[22]);
+                int supportNetwork = int.Parse(countryData[23]);
+                float lifeExpectancy = float.Parse(countryData[24]);
+                int selfReportedHealth = int.Parse(countryData[25]);
+                float lifeSatisfaction = float.Parse(countryData[26]);
                 dataComponent.setBetterLifeIndexData(
                     disposableIncome, employmentRate, supportNetwork,
                     lifeExpectancy, selfReportedHealth, lifeSatisfaction);

@@ -4,38 +4,43 @@ using UnityEngine;
 
 public class CountryData : MonoBehaviour
 {
-    // time dataset
+    // Time Dataset
     public int id;
     string countryName;
     string surveyYears;
 
-    // time categories
-    int paidWorkOrStudyCategoryTotal; // main category
+    // Time Categories
+    // Paid Work
+    int paidWorkOrStudyCategoryTotal;   // main category
     int paidWorkJobs;
     int travelToFromWork;
     int schoolOrClasses;
-    int otherPaidWork; // inclides homework, job search and other paid work
+    int otherPaidWork;                  // includes hw, job searching and other
 
-    int unpaidWorkCategoryTotal; // main category
-    int routineHousework; // includes travel for household 
-    int careForOthers; // includes all care categories + volunteering
-    // do NOT include child & adult care, those are included in "care for household"
-    int otherUnpaid; // includes shopping
+    // Unpaid Work
+    int unpaidWorkCategoryTotal;        // main category
+    int routineHousework;               // includes household travel
+    int careForOthers;                  // includes all care categories, volunteering
+    int otherUnpaid;                    // includes shopping but not child/adult care 
+                                        // (those are under careForOthers)
 
-    int personalCareCategoryTotal; // main category
+    // Personal Care
+    int personalCareCategoryTotal;      // main category
     int sleeping;
     int eatingDrinking;
     int personalHouseholdMedicalServices;
 
-    int leisureCategoryTotal; // main category
-    int attendingEvents; // includes sports
+    // Leisure
+    int leisureCategoryTotal;           // main category
+    int attendingEvents;                // includes sports
     int visitingFriends;
     int TVOrRadio;
     int otherLeisure;
 
-    int otherCategoryTotal; // main category
+    // Misc Category
+    int otherCategoryTotal;             // main category
 
-    // better life index categories 
+    // Better Life Index Categories
     int disposableIncome;
     int employmentRate;
     int supportNetwork;
@@ -43,10 +48,8 @@ public class CountryData : MonoBehaviour
     int selfReportedHealth;
     float lifeSatisfaction;
 
-    // derived data
+    // Derived Data
     float workToLeisureRatio;
-
-
 
     void Start()
     {
@@ -59,6 +62,7 @@ public class CountryData : MonoBehaviour
         
     }
 
+    // Determines the color of the water based on 
     public void setColorOfWater()
     {
 
