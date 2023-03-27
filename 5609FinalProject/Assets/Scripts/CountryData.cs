@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CountryData : MonoBehaviour
 {
+    // Water Color Gradient
+    public Gradient gradient; 
+
     // Time Dataset
     public int id;
     string countryName;
@@ -53,19 +56,25 @@ public class CountryData : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    
     }
 
     // Determines the color of the water based on 
     public void setColorOfWater()
     {
-
+        Debug.Log("Setting Color of the Water...");
+        for (int i = 0; i < transform.childCount; i++) {
+            float val = (float) (2.03f - workToLeisureRatio) / (2.03f - 0.63f);
+            Color color = gradient.Evaluate(val);
+            MeshRenderer meshRenderer = transform.GetChild(1).GetComponent<MeshRenderer>();
+            meshRenderer.material.SetColor("_BaseColor", color);
+        }
     }
 
     public void setPreliminaryData(int id, string name, string surveyYears)

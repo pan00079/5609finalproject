@@ -17,6 +17,7 @@ public class DataAccessor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Starting...");
         if (jarPrefab == null || datasetCollection == null || dataProcessor == null)
         {
             throw new System.Exception("GameObject variables (prefab, datasetCollection, or processor) are not set. Please set those, then run again.");
@@ -88,6 +89,8 @@ public class DataAccessor : MonoBehaviour
                 lifeSatisfactionList.Add(lifeSatisfaction);
                 paidWorktimeList.Add(paidWorkTotal);
                 workToLeisureRatioList.Add(workToLeisureRatio);
+
+                dataComponent.setColorOfWater();
             }
         }
 
