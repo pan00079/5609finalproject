@@ -131,10 +131,8 @@ public class DataAccessor : MonoBehaviour
             country.setColorOfFlowerCenter(minIncome, maxIncome);
             country.setColorOfFlowerPetals(minHealth, maxHealth);
             country.setColorOfFlowerStem(minSupport, maxSupport);
+            country.SetLabel();
         }
-
-
     }
-
 }
 

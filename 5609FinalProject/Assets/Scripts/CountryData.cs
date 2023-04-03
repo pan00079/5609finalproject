@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CountryData : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class CountryData : MonoBehaviour
     public FlowerType countryType;
     float stemScalingFactor;
     GameObject enabledFlower;
+
+    public Text label;
 
     // Water Color Gradient
     public Gradient gradientWater;
@@ -108,7 +111,7 @@ public class CountryData : MonoBehaviour
 
     public void SetValuesBasedOnFlowerType()
     {
-        Debug.Log("Setting Flower Type...");
+        // Debug.Log("Setting Flower Type...");
         switch (countryType)
         {
             case FlowerType.FullyGrownOne:
@@ -172,9 +175,15 @@ public class CountryData : MonoBehaviour
         }
     }
 
+    public void SetLabel() {
+        Text label = this.GetComponentInChildren<Text>();
+        label.text = name;
+        label.GetComponent<RectTransform>().position = this.transform.position;
+    }
+
     public void setColorOfFlowerCenter(int minIncome, int maxIncome)
     {
-        Debug.Log("Setting Color of the Flower Center...");
+        // Debug.Log("Setting Color of the Flower Center...");
         float val = (float)(disposableIncome - minIncome) / (maxIncome - minIncome);
         Color color = gradientCenter.Evaluate(val);
         MeshRenderer meshRenderer;
@@ -194,7 +203,7 @@ public class CountryData : MonoBehaviour
     {
         if (countryType != FlowerType.SeedlingSix)
         {
-            Debug.Log("Setting Color of the Flower Petals...");
+            // Debug.Log("Setting Color of the Flower Petals...");
             float val = (float)(selfReportedHealth - minHealth) / (maxHealth - minHealth);
             Color color = gradientPetals.Evaluate(val);
             MeshRenderer meshRenderer;
@@ -205,7 +214,7 @@ public class CountryData : MonoBehaviour
 
     public void setColorOfFlowerStem(int minSupport, int maxSupport)
     {
-        Debug.Log("Setting Color of the Flower Stem...");
+        // Debug.Log("Setting Color of the Flower Stem...");
         float val = (float)(supportNetwork - minSupport) / (maxSupport - minSupport);
         Color color = gradientStem.Evaluate(val);
         MeshRenderer meshRenderer;
