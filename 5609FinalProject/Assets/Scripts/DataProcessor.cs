@@ -32,9 +32,6 @@ public class DataProcessor : MonoBehaviour
 
     public void setCountriesPosition()
     {
-        Debug.Log(maxPaidWorkTime);
-        Debug.Log(minPaidWorkTime);
-        Debug.Log("aaaaaa");
         int numCountries = datasetCollection.transform.childCount;
         for (int i = 0; i < numCountries; i++)
         {
@@ -43,7 +40,6 @@ public class DataProcessor : MonoBehaviour
 
             float lifeSatisfaction = data.getLifeSatisfaction();
             int workHours = data.getTotalWorkHours();
-            Debug.Log(workHours);
             
 
             float lerpAmtX = (lifeSatisfaction - minLifeSatisfaction) / (maxLifeSatisfaction - minLifeSatisfaction);

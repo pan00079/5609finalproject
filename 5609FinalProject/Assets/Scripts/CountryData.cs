@@ -4,38 +4,46 @@ using UnityEngine;
 
 public class CountryData : MonoBehaviour
 {
-    // time dataset
+    // Water Color Gradient
+    public Gradient gradient; 
+
+    // Time Dataset
     public int id;
     string countryName;
     string surveyYears;
 
-    // time categories
-    int paidWorkOrStudyCategoryTotal; // main category
+    // Time Categories
+    // Paid Work
+    int paidWorkOrStudyCategoryTotal;   // main category
     int paidWorkJobs;
     int travelToFromWork;
     int schoolOrClasses;
-    int otherPaidWork; // inclides homework, job search and other paid work
+    int otherPaidWork;                  // includes hw, job searching and other
 
-    int unpaidWorkCategoryTotal; // main category
-    int routineHousework; // includes travel for household 
-    int careForOthers; // includes all care categories + volunteering
-    // do NOT include child & adult care, those are included in "care for household"
-    int otherUnpaid; // includes shopping
+    // Unpaid Work
+    int unpaidWorkCategoryTotal;        // main category
+    int routineHousework;               // includes household travel
+    int careForOthers;                  // includes all care categories, volunteering
+    int otherUnpaid;                    // includes shopping but not child/adult care 
+                                        // (those are under careForOthers)
 
-    int personalCareCategoryTotal; // main category
+    // Personal Care
+    int personalCareCategoryTotal;      // main category
     int sleeping;
     int eatingDrinking;
     int personalHouseholdMedicalServices;
 
-    int leisureCategoryTotal; // main category
-    int attendingEvents; // includes sports
+    // Leisure
+    int leisureCategoryTotal;           // main category
+    int attendingEvents;                // includes sports
     int visitingFriends;
     int TVOrRadio;
     int otherLeisure;
 
-    int otherCategoryTotal; // main category
+    // Misc Category
+    int otherCategoryTotal;             // main category
 
-    // better life index categories 
+    // Better Life Index Categories
     int disposableIncome;
     int employmentRate;
     int supportNetwork;
@@ -43,25 +51,30 @@ public class CountryData : MonoBehaviour
     int selfReportedHealth;
     float lifeSatisfaction;
 
-    // derived data
+    // Derived Data
     float workToLeisureRatio;
-
-
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    
     }
 
+    // Determines the color of the water based on 
     public void setColorOfWater()
     {
-
+        Debug.Log("Setting Color of the Water...");
+        for (int i = 0; i < transform.childCount; i++) {
+            float val = (float) (2.03f - workToLeisureRatio) / (2.03f - 0.63f);
+            Color color = gradient.Evaluate(val);
+            MeshRenderer meshRenderer = transform.GetChild(1).GetComponent<MeshRenderer>();
+            meshRenderer.material.SetColor("_BaseColor", color);
+        }
     }
 
     public void setPreliminaryData(int id, string name, string surveyYears)
