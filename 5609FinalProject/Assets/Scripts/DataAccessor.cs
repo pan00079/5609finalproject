@@ -7,7 +7,7 @@ using UnityEngine;
 public class DataAccessor : MonoBehaviour
 {
     public string csvDataPath;
-    public List<GameObject> listOfCountries;
+    public List<CountryData> listOfCountries;
     public GameObject jarPrefab;
 
     // serves as a parent for all individual country data
@@ -51,6 +51,8 @@ public class DataAccessor : MonoBehaviour
                 GameObject countryObject = Instantiate(jarPrefab, datasetCollection.transform);
                 CountryData dataComponent = countryObject.GetComponent<CountryData>();
 
+                listOfCountries.Add(dataComponent);
+
                 string countryName = countryData[1];
                 string surveyYear = countryData[2];
                 dataComponent.setPreliminaryData(countryId, countryName, surveyYear);
@@ -84,27 +86,54 @@ public class DataAccessor : MonoBehaviour
 
                 float workToLeisureRatio = (float) paidWorkTotal / leisureTotal;
                 dataComponent.setWorkToLeisureRatio (workToLeisureRatio);
-
-                // add to list so that we know min and stuff
-                lifeSatisfactionList.Add(lifeSatisfaction);
-                paidWorktimeList.Add(paidWorkTotal);
-                workToLeisureRatioList.Add(workToLeisureRatio);
-
-                dataComponent.setColorOfWater();
             }
         }
 
-        float minLifeSatisfaction = lifeSatisfactionList.Min();
-        int minPaidWorkTime = paidWorktimeList.Min();
-        float minWorkToLeisureRatio = workToLeisureRatioList.Min();
-        float maxLifeSatisfaction = lifeSatisfactionList.Max();
-        int maxPaidWorkTime = paidWorktimeList.Max();
-        float maxWorkToLeisureRatio = workToLeisureRatioList.Max();
+        CountryData[] minMaxArray = listOfCountries.OrderBy(country => country.getLifeSatisfaction()).ToArray();
+        float minLifeSatisfaction = minMaxArray[0].getLifeSatisfaction();
+        float maxLifeSatisfaction = minMaxArray[minMaxArray.Length - 1].getLifeSatisfaction();
+
+        minMaxArray = listOfCountries.OrderBy(country => country.getTotalWorkHours()).ToArray();
+        int minPaidWorkTime = minMaxArray[0].getTotalWorkHours();
+        int maxPaidWorkTime = minMaxArray[minMaxArray.Length - 1].getTotalWorkHours();
+
+        minMaxArray = listOfCountries.OrderBy(country => country.getWorkToLeisureRatio()).ToArray();
+        float minWorkToLeisureRatio = minMaxArray[0].getWorkToLeisureRatio();
+        float maxWorkToLeisureRatio = minMaxArray[minMaxArray.Length - 1].getWorkToLeisureRatio();
+
+        minMaxArray = listOfCountries.OrderBy(country => country.getSupportNetwork()).ToArray();
+        int minSupport = minMaxArray[0].getSupportNetwork();
+        int maxSupport = minMaxArray[minMaxArray.Length - 1].getSupportNetwork();
+
+        minMaxArray = listOfCountries.OrderBy(country => country.getDisposableIncome()).ToArray();
+        int minIncome = minMaxArray[1].getDisposableIncome();
+        int maxIncome = minMaxArray[minMaxArray.Length - 1].getDisposableIncome();
+
+        minMaxArray = listOfCountries.OrderBy(country => country.getSelfReportedHealth()).ToArray();
+        int minHealth = minMaxArray[0].getSelfReportedHealth();
+        int maxHealth = minMaxArray[minMaxArray.Length - 1].getSelfReportedHealth();
+
+        minMaxArray = listOfCountries.OrderBy(country => country.getLifeExpectancy()).ToArray();
+        float minLifeExpectancy = minMaxArray[0].getLifeExpectancy();
+        float maxLifeExpectancy = minMaxArray[minMaxArray.Length - 1].getLifeExpectancy();
 
         DataProcessor processorComponent = dataProcessor.GetComponent<DataProcessor>();
         processorComponent.setMinAndMaxValues(minLifeSatisfaction, minPaidWorkTime, minWorkToLeisureRatio,
             maxLifeSatisfaction, maxPaidWorkTime, maxWorkToLeisureRatio);
         processorComponent.setCountriesPosition();
+
+        foreach (CountryData country in listOfCountries)
+        {
+            country.SetFlowerTypeBasedOnLifeSatisfaction();
+            country.SetValuesBasedOnFlowerType();
+            country.setColorOfWater();
+            country.setStemLength(minLifeExpectancy, maxLifeExpectancy);
+            country.setColorOfFlowerCenter(minIncome, maxIncome);
+            country.setColorOfFlowerPetals(minHealth, maxHealth);
+            country.setColorOfFlowerStem(minSupport, maxSupport);
+        }
+
+
     }
 
 }

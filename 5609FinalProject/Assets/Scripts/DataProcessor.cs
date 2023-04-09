@@ -41,7 +41,6 @@ public class DataProcessor : MonoBehaviour
             float lifeSatisfaction = data.getLifeSatisfaction();
             int workHours = data.getTotalWorkHours();
             
-
             float lerpAmtX = (lifeSatisfaction - minLifeSatisfaction) / (maxLifeSatisfaction - minLifeSatisfaction);
             float lerpAmtZ = (float) (workHours - minPaidWorkTime) / (maxPaidWorkTime - minPaidWorkTime);
 
