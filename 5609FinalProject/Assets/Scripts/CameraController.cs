@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseRot = new Vector2(0, 0);
+        mouseRot = new Vector2(0, -15);
         defaultCamPos = Camera.main.transform.position;
         defaultCamRot = Camera.main.transform.rotation;
         topDown.enabled = false;
@@ -51,7 +51,8 @@ public class CameraController : MonoBehaviour
             // move camera with WASD
             if (Input.GetKey(KeyCode.W))
             {
-                Camera.main.transform.Translate(new Vector3(0, movementScalar * Time.deltaTime, 0));
+
+                Camera.main.transform.Translate(new Vector3(0, 0, movementScalar * Time.deltaTime));
             }
             if (Input.GetKey(KeyCode.A))
             {
@@ -59,11 +60,22 @@ public class CameraController : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.S))
             {
-                Camera.main.transform.Translate(new Vector3(0, -movementScalar * Time.deltaTime, 0));
+
+                Camera.main.transform.Translate(new Vector3(0, 0, -movementScalar * Time.deltaTime));
             }
             if (Input.GetKey(KeyCode.D))
             {
                 Camera.main.transform.Translate(new Vector3(movementScalar * Time.deltaTime, 0, 0));
+            }
+            // up/down with space/lctrl
+            if (Input.GetKey(KeyCode.Space))
+            {
+
+                Camera.main.transform.Translate(new Vector3(0, movementScalar * Time.deltaTime, 0));
+            }
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                Camera.main.transform.Translate(new Vector3(0, -movementScalar * Time.deltaTime, 0));
             }
 
 

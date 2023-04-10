@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex_2:
-        m_Texture: {fileID: 2800000, guid: 88a830f89c355c84db844cba6789b624, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6ab28d3b61bdbbe43b8d2d25aeaef4d3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DownTex_1:
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DownTex_2:
-        m_Texture: {fileID: 2800000, guid: d33547bdc1205634284abdfc244313f0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 53400c1bbe9952c4e8874222bea3d17a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex_1:
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex_2:
-        m_Texture: {fileID: 2800000, guid: 7bcf5c7e04de167409e5b6afd758bb63, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0409987aaf14d4343bbf0b0e5f9e4dbf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LeftTex_1:
@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LeftTex_2:
-        m_Texture: {fileID: 2800000, guid: 511b7abba6c662c40a0db075afdeeba7, type: 3}
+        m_Texture: {fileID: 2800000, guid: e10543b194b4ea54fabde2e5472ba8de, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightTex_1:
@@ -56,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightTex_2:
-        m_Texture: {fileID: 2800000, guid: 06d134190fa2eb846bea51f451f1787e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44fb23d418a29cd4a945ee25157aeb4c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex_1:
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex_2:
-        m_Texture: {fileID: 2800000, guid: 8cf7bf24e6050624db28799a75b37830, type: 3}
+        m_Texture: {fileID: 2800000, guid: e51a6ed6a5279d943a83bc460f75babf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -74,5 +74,5 @@ Material:
     - _InvertColors: 0
     - _Rotation: 0
     m_Colors:
-    - _Tint: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+    - _Tint: {r: 0.6981132, g: 0.5017831, b: 0.3984514, a: 1}
   m_BuildTextureStacks: []

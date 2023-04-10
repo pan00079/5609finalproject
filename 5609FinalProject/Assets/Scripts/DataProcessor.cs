@@ -47,7 +47,7 @@ public class DataProcessor : MonoBehaviour
             float x = Mathf.Lerp(-sizeXAxis, sizeXAxis, lerpAmtX);
             float z = Mathf.Lerp(-sizeZAxis, sizeZAxis, lerpAmtZ);
 
-            go.transform.position = new Vector3(x, 1f, z);
+            go.transform.localPosition = new Vector3(x, 1f, z);
         }
 
     }
