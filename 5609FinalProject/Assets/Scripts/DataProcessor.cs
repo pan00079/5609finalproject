@@ -41,14 +41,13 @@ public class DataProcessor : MonoBehaviour
             float lifeSatisfaction = data.getLifeSatisfaction();
             int workHours = data.getTotalWorkHours();
             
-
             float lerpAmtX = (lifeSatisfaction - minLifeSatisfaction) / (maxLifeSatisfaction - minLifeSatisfaction);
             float lerpAmtZ = (float) (workHours - minPaidWorkTime) / (maxPaidWorkTime - minPaidWorkTime);
 
             float x = Mathf.Lerp(-sizeXAxis, sizeXAxis, lerpAmtX);
             float z = Mathf.Lerp(-sizeZAxis, sizeZAxis, lerpAmtZ);
 
-            go.transform.position = new Vector3(x, 1f, z);
+            go.transform.localPosition = new Vector3(x, 1f, z);
         }
 
     }

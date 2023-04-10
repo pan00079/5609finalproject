@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class CountryData : MonoBehaviour
 {
+    public enum FlowerType
+    {
+        FullyGrownOne, AlmostGrownTwo, FloweringThree, 
+        BuddingFour, VegetativeFive, SeedlingSix
+    }
+
+    public FlowerType countryType;
+    float stemScalingFactor;
+    GameObject enabledFlower;
+
     // Water Color Gradient
-    public Gradient gradient; 
+    public Gradient gradientWater;
+    public Gradient gradientPetals;
+    public Gradient gradientCenter;
+    public Gradient gradientStem;
 
     // Time Dataset
     public int id;
@@ -44,12 +57,12 @@ public class CountryData : MonoBehaviour
     int otherCategoryTotal;             // main category
 
     // Better Life Index Categories
-    int disposableIncome;
-    int employmentRate;
-    int supportNetwork;
-    float lifeExpectancy;
-    int selfReportedHealth;
-    float lifeSatisfaction;
+    int disposableIncome;   // center color
+    int employmentRate;     // ??
+    int supportNetwork;     // stem length
+    float lifeExpectancy;   // stem color
+    int selfReportedHealth; // flower color
+    float lifeSatisfaction; // flower type
 
     // Derived Data
     float workToLeisureRatio;
@@ -65,16 +78,146 @@ public class CountryData : MonoBehaviour
     
     }
 
+    public void SetFlowerTypeBasedOnLifeSatisfaction()
+    {
+        if (lifeSatisfaction < 5)
+        {
+            countryType = FlowerType.SeedlingSix;
+        }
+        else if (lifeSatisfaction < 6)
+        {
+            countryType = FlowerType.VegetativeFive;
+        }
+        else if (lifeSatisfaction < 6.5)
+        {
+            countryType = FlowerType.BuddingFour;
+        }
+        else if (lifeSatisfaction < 7)
+        {
+            countryType = FlowerType.FloweringThree;
+        }
+        else if (lifeSatisfaction < 7.5)
+        {
+            countryType = FlowerType.AlmostGrownTwo;
+        }
+        else
+        {
+            countryType = FlowerType.FullyGrownOne;
+        }
+    }
+
+    public void SetValuesBasedOnFlowerType()
+    {
+        Debug.Log("Setting Flower Type...");
+        switch (countryType)
+        {
+            case FlowerType.FullyGrownOne:
+                stemScalingFactor = 2f;
+                enabledFlower = transform.GetChild(2).gameObject;
+                enabledFlower.SetActive(true);
+                break;
+            case FlowerType.AlmostGrownTwo:
+                stemScalingFactor = 2.02f;
+                enabledFlower = transform.GetChild(3).gameObject;
+                enabledFlower.SetActive(true);
+                break;
+            case FlowerType.FloweringThree:
+                stemScalingFactor = 2.25f;
+                enabledFlower = transform.GetChild(4).gameObject;
+                enabledFlower.SetActive(true);
+                break;
+            case FlowerType.BuddingFour:
+                stemScalingFactor = 2.39f;
+                enabledFlower = transform.GetChild(5).gameObject;
+                enabledFlower.SetActive(true);
+                break;
+            case FlowerType.VegetativeFive:
+                stemScalingFactor = 2.65f;
+                enabledFlower = transform.GetChild(6).gameObject;
+                enabledFlower.SetActive(true);
+                break;
+            case FlowerType.SeedlingSix:
+                stemScalingFactor = 3.2f;
+                enabledFlower = transform.GetChild(7).gameObject;
+                enabledFlower.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
+    public void setStemLength(float minLifeExpectancy, float maxLifeExpectancy)
+    {
+        float lerpAmt = (float) (lifeExpectancy - minLifeExpectancy) / (maxLifeExpectancy - minLifeExpectancy);
+        float length = Mathf.Lerp(1f, stemScalingFactor, lerpAmt);
+        if (countryType != FlowerType.SeedlingSix)
+        {
+            enabledFlower.transform.GetChild(1).localScale = new Vector3(1f, length, 1f);
+        }
+        else
+        {
+            enabledFlower.transform.localScale = new Vector3(1f, length, 1f);
+        }
+    }
+
     // Determines the color of the water based on 
     public void setColorOfWater()
     {
         Debug.Log("Setting Color of the Water...");
         for (int i = 0; i < transform.childCount; i++) {
             float val = (float) (2.03f - workToLeisureRatio) / (2.03f - 0.63f);
-            Color color = gradient.Evaluate(val);
+            Color color = gradientWater.Evaluate(val);
             MeshRenderer meshRenderer = transform.GetChild(1).GetComponent<MeshRenderer>();
-            meshRenderer.material.SetColor("_BaseColor", color);
+            color.a = 0.80f;
+            meshRenderer.material.SetColor("_Color", color);
         }
+    }
+
+    public void setColorOfFlowerCenter(int minIncome, int maxIncome)
+    {
+        Debug.Log("Setting Color of the Flower Center...");
+        float val = (float)(disposableIncome - minIncome) / (maxIncome - minIncome);
+        Color color = gradientCenter.Evaluate(val);
+        MeshRenderer meshRenderer;
+
+        if (countryType != FlowerType.SeedlingSix)
+        {
+            meshRenderer = enabledFlower.transform.GetChild(1).GetComponent<MeshRenderer>();
+        }
+        else
+        {
+            meshRenderer = enabledFlower.transform.GetComponent<MeshRenderer>();
+        }
+        meshRenderer.materials[1].SetColor("_Color", color);
+    }
+
+    public void setColorOfFlowerPetals(int minHealth, int maxHealth)
+    {
+        if (countryType != FlowerType.SeedlingSix)
+        {
+            Debug.Log("Setting Color of the Flower Petals...");
+            float val = (float)(selfReportedHealth - minHealth) / (maxHealth - minHealth);
+            Color color = gradientPetals.Evaluate(val);
+            MeshRenderer meshRenderer;
+            meshRenderer = enabledFlower.transform.GetChild(0).GetComponent<MeshRenderer>();
+            meshRenderer.material.SetColor("_Color", color);
+        }
+    }
+
+    public void setColorOfFlowerStem(int minSupport, int maxSupport)
+    {
+        Debug.Log("Setting Color of the Flower Stem...");
+        float val = (float)(supportNetwork - minSupport) / (maxSupport - minSupport);
+        Color color = gradientStem.Evaluate(val);
+        MeshRenderer meshRenderer;
+        if (countryType != FlowerType.SeedlingSix)
+        {
+            meshRenderer = enabledFlower.transform.GetChild(1).GetComponent<MeshRenderer>();
+        }
+        else
+        {
+            meshRenderer = enabledFlower.transform.GetComponent<MeshRenderer>();
+        }
+        meshRenderer.materials[0].SetColor("_Color", color);
     }
 
     public void setPreliminaryData(int id, string name, string surveyYears)
@@ -153,5 +296,24 @@ public class CountryData : MonoBehaviour
     public float getWorkToLeisureRatio()
     {
         return workToLeisureRatio;
+    }
+
+    public int getSupportNetwork()
+    {
+        return supportNetwork;
+    }
+    public int getDisposableIncome()
+    {
+        return disposableIncome;
+    }
+
+    public float getLifeExpectancy()
+    {
+        return lifeExpectancy;
+    }
+
+    public int getSelfReportedHealth()
+    {
+        return selfReportedHealth;
     }
 }
