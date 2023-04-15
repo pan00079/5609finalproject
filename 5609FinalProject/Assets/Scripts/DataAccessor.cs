@@ -122,6 +122,7 @@ public class DataAccessor : MonoBehaviour
             maxLifeSatisfaction, maxPaidWorkTime, maxWorkToLeisureRatio);
         processorComponent.setCountriesPosition();
 
+
         foreach (CountryData country in listOfCountries)
         {
             country.SetFlowerTypeBasedOnLifeSatisfaction();

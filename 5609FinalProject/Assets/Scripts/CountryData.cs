@@ -65,7 +65,7 @@ public class CountryData : MonoBehaviour
     float lifeSatisfaction; // flower type
 
     // Derived Data
-    float workToLeisureRatio;
+    public float workToLeisureRatio;
 
     void Start()
     {
