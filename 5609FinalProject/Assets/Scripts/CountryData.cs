@@ -5,167 +5,108 @@ using UnityEngine.UI;
 
 public class CountryData : MonoBehaviour
 {
-    public enum FlowerType
-    {
-        FullyGrownOne, AlmostGrownTwo, FloweringThree, 
-        BuddingFour, VegetativeFive, SeedlingSix
-    }
+    public enum FlowerType { FullyGrownOne, AlmostGrownTwo, FloweringThree, BuddingFour, VegetativeFive, SeedlingSix }
 
-    public FlowerType countryType;
+    // Data fields
+    public FlowerType flowerType; // @ renamed from countryType
     float stemScalingFactor;
     GameObject enabledFlower;
-
     public Text label;
-
-    // Water Color Gradient
-    public Gradient gradientWater;
-    public Gradient gradientPetals;
-    public Gradient gradientCenter;
-    public Gradient gradientStem;
 
     // Time Dataset
     public int id;
     string countryName;
     string surveyYears;
 
+    // Color Gradients
+    public Gradient gradientWater, gradientPetals, gradientCenter, gradientStem;
+
     // Time Categories
-    // Paid Work
-    int paidWorkOrStudyCategoryTotal;   // main category
-    int paidWorkJobs;
-    int travelToFromWork;
-    int schoolOrClasses;
-    int otherPaidWork;                  // includes hw, job searching and other
+    // @ Refactored into a large dictionary. Accessing/modifying category values
+    //   is now as simply as checking categories["sleeping"].
+    Dictionary<string, dynamic> categories = new()
+    {
+        ["PaidWorkOrStudyCategoryTotal"] = 0,
+        ["PaidWorkJobs"] = 0,
+        ["TravelToFromWork"] = 0,
+        ["SchoolOrClasses"] = 0,
+        ["OtherPaidWork"] = 0,              // otherPaidWork includes hw, job searching and other
 
-    // Unpaid Work
-    int unpaidWorkCategoryTotal;        // main category
-    int routineHousework;               // includes household travel
-    int careForOthers;                  // includes all care categories, volunteering
-    int otherUnpaid;                    // includes shopping but not child/adult care 
-                                        // (those are under careForOthers)
+        ["UnpaidWorkCategoryTotal"] = 0,
+        ["RoutineHousework"] = 0,           // includes household travel
+        ["CareForOthers"] = 0,              // includes all care categories, volunteering
+        ["OtherUnpaid"] = 0,                // includes shopping but not child/adult care 
 
-    // Personal Care
-    int personalCareCategoryTotal;      // main category
-    int sleeping;
-    int eatingDrinking;
-    int personalHouseholdMedicalServices;
+        ["PersonalCareCategoryTotal"] = 0,
+        ["Sleeping"] = 0,
+        ["EatingDrinking"] = 0,
+        ["PersonalHouseholdMedicalServices"] = 0,
 
-    // Leisure
-    int leisureCategoryTotal;           // main category
-    int attendingEvents;                // includes sports
-    int visitingFriends;
-    int TVOrRadio;
-    int otherLeisure;
+        ["LeisureCategoryTotal"] = 0,
+        ["AttendingEvents"] = 0,
+        ["VisitingFriends"] = 0,
+        ["TVOrRadio"] = 0,
+        ["OtherLeisure"] = 0,
 
-    // Misc Category
-    int otherCategoryTotal;             // main category
+        ["OtherCategoryTotal"] = 0,
 
-    // Better Life Index Categories
-    int disposableIncome;   // center color
-    int employmentRate;     // ??
-    int supportNetwork;     // stem length
-    float lifeExpectancy;   // stem color
-    int selfReportedHealth; // flower color
-    float lifeSatisfaction; // flower type
+                                            // Better Life Index Categories
+        ["DisposableIncome"] = 0,           // center color     
+        ["EmploymentRate"] = 0,
+        ["SupportNetwork"] = 0,             // stem length
+        ["LifeExpectancy"] = 0.0f,          // stem color
+        ["SelfReportedHealth"] = 0,         // flower color
+        ["LifeSatisfaction"] = 0.0f         // flower type
+    };
 
     // Derived Data
     float workToLeisureRatio;
 
-    void Start()
-    {
+    void Start() { }
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    
-    }
+    void Update() { }
 
     public void SetFlowerTypeBasedOnLifeSatisfaction()
     {
-        if (lifeSatisfaction < 5)
-        {
-            countryType = FlowerType.SeedlingSix;
-        }
-        else if (lifeSatisfaction < 6)
-        {
-            countryType = FlowerType.VegetativeFive;
-        }
-        else if (lifeSatisfaction < 6.5)
-        {
-            countryType = FlowerType.BuddingFour;
-        }
-        else if (lifeSatisfaction < 7)
-        {
-            countryType = FlowerType.FloweringThree;
-        }
-        else if (lifeSatisfaction < 7.5)
-        {
-            countryType = FlowerType.AlmostGrownTwo;
-        }
-        else
-        {
-            countryType = FlowerType.FullyGrownOne;
-        }
+        var flowerTypeBins = new[] {
+            Tuple.Create(0f, 5f, FlowerType.SeedlingSix),
+            Tuple.Create(5f, 6f, FlowerType.VegetativeFive),
+            Tuple.Create(6f, 6.5f, FlowerType.BuddingFour),
+            Tuple.Create(6.5f, 7f, FlowerType.FloweringThree),
+            Tuple.Create(7f, 7.5f, FlowerType.AlmostGrownTwo),
+            Tuple.Create(7.5f, float.MaxValue, FlowerType.FullyGrownOne),
+        };
+        var bin = flowerTypeBins.First(
+            bin => categories["LifeSatisfaction"] >= bin.Item1 && categories["LifeSatisfaction"] < bin.Item2);
+        flowerType = bin.Item3; // Item3 is the third item in the tuple (the flowertype)
     }
 
+    public void SetLabel() {
+        Text label = this.GetComponentInChildren<Text>();
+        label.text = name;
+        label.GetComponent<RectTransform>().position = this.transform.position;
+    }
+
+    // @ Refactored to not be if/switch since enums have an implicit int value.
     public void SetValuesBasedOnFlowerType()
     {
-        // Debug.Log("Setting Flower Type...");
-        switch (countryType)
-        {
-            case FlowerType.FullyGrownOne:
-                stemScalingFactor = 2f;
-                enabledFlower = transform.GetChild(2).gameObject;
-                enabledFlower.SetActive(true);
-                break;
-            case FlowerType.AlmostGrownTwo:
-                stemScalingFactor = 2.02f;
-                enabledFlower = transform.GetChild(3).gameObject;
-                enabledFlower.SetActive(true);
-                break;
-            case FlowerType.FloweringThree:
-                stemScalingFactor = 2.25f;
-                enabledFlower = transform.GetChild(4).gameObject;
-                enabledFlower.SetActive(true);
-                break;
-            case FlowerType.BuddingFour:
-                stemScalingFactor = 2.39f;
-                enabledFlower = transform.GetChild(5).gameObject;
-                enabledFlower.SetActive(true);
-                break;
-            case FlowerType.VegetativeFive:
-                stemScalingFactor = 2.65f;
-                enabledFlower = transform.GetChild(6).gameObject;
-                enabledFlower.SetActive(true);
-                break;
-            case FlowerType.SeedlingSix:
-                stemScalingFactor = 3.2f;
-                enabledFlower = transform.GetChild(7).gameObject;
-                enabledFlower.SetActive(true);
-                break;
-            default:
-                break;
-        }
+        stemScalingFactor = 2f + 0.05f * flowerType;
+        enabledFlower = transform.GetChild(flowerType + 2).gameObject;
+        enabledFlower.SetActive(true);
     }
+
     public void setStemLength(float minLifeExpectancy, float maxLifeExpectancy)
     {
         float lerpAmt = (float) (lifeExpectancy - minLifeExpectancy) / (maxLifeExpectancy - minLifeExpectancy);
         float length = Mathf.Lerp(1f, stemScalingFactor, lerpAmt);
-        if (countryType != FlowerType.SeedlingSix)
-        {
+        if (flowerType != FlowerType.SeedlingSix)
             enabledFlower.transform.GetChild(1).localScale = new Vector3(1f, length, 1f);
-        }
         else
-        {
             enabledFlower.transform.localScale = new Vector3(1f, length, 1f);
-        }
     }
 
-    // Determines the color of the water based on 
     public void setColorOfWater()
     {
-        Debug.Log("Setting Color of the Water...");
         for (int i = 0; i < transform.childCount; i++) {
             float val = (float) (2.03f - workToLeisureRatio) / (2.03f - 0.63f);
             Color color = gradientWater.Evaluate(val);
@@ -175,20 +116,12 @@ public class CountryData : MonoBehaviour
         }
     }
 
-    public void SetLabel() {
-        Text label = this.GetComponentInChildren<Text>();
-        label.text = name;
-        label.GetComponent<RectTransform>().position = this.transform.position;
-    }
-
     public void setColorOfFlowerCenter(int minIncome, int maxIncome)
     {
-        // Debug.Log("Setting Color of the Flower Center...");
         float val = (float)(disposableIncome - minIncome) / (maxIncome - minIncome);
         Color color = gradientCenter.Evaluate(val);
         MeshRenderer meshRenderer;
-
-        if (countryType != FlowerType.SeedlingSix)
+        if (flowerType != FlowerType.SeedlingSix)
         {
             meshRenderer = enabledFlower.transform.GetChild(1).GetComponent<MeshRenderer>();
         }
@@ -201,9 +134,8 @@ public class CountryData : MonoBehaviour
 
     public void setColorOfFlowerPetals(int minHealth, int maxHealth)
     {
-        if (countryType != FlowerType.SeedlingSix)
+        if (flowerType != FlowerType.SeedlingSix)
         {
-            // Debug.Log("Setting Color of the Flower Petals...");
             float val = (float)(selfReportedHealth - minHealth) / (maxHealth - minHealth);
             Color color = gradientPetals.Evaluate(val);
             MeshRenderer meshRenderer;
@@ -214,11 +146,10 @@ public class CountryData : MonoBehaviour
 
     public void setColorOfFlowerStem(int minSupport, int maxSupport)
     {
-        // Debug.Log("Setting Color of the Flower Stem...");
         float val = (float)(supportNetwork - minSupport) / (maxSupport - minSupport);
         Color color = gradientStem.Evaluate(val);
         MeshRenderer meshRenderer;
-        if (countryType != FlowerType.SeedlingSix)
+        if (flowerType != FlowerType.SeedlingSix)
         {
             meshRenderer = enabledFlower.transform.GetChild(1).GetComponent<MeshRenderer>();
         }
@@ -236,93 +167,26 @@ public class CountryData : MonoBehaviour
         this.surveyYears = surveyYears;
     }
 
-    public void setPaidWorkTimes(int paidWorkOrStudyCategoryTotal)
-    {
-        this.paidWorkOrStudyCategoryTotal = paidWorkOrStudyCategoryTotal;
-        // this.paidWorkJobs = paidWorkJobs;
-        // this.travelToFromWork = travelToFromWork;
-        // this.schoolOrClasses = schoolOrClasses;
-        // this.otherPaidWork = otherPaidWork;
+    // @ Doing this so we don't need 100 getters/setters for each category value.
+    public void setTimeVal(string timeCategory, int value) {
+        categories[timeCategory] = value;
     }
-
-    public void setUnpaidWorkTimes(int unpaidWorkCategoryTotal)
-    {
-        this.unpaidWorkCategoryTotal = unpaidWorkCategoryTotal;
-        // this.routineHousework = routineHousework;
-        // this.careForOthers = careForOthers;
-        // this.otherUnpaid = otherUnpaid;
+    public void setTimeVal(string category, float value) {
+        categories[timeCategory] = value;
     }
-
-    public void setPersonalCareTimes(int personalCareCategoryTotal)
-    {
-        this.personalCareCategoryTotal = personalCareCategoryTotal;
-        // this.sleeping = sleeping;
-        // this.eatingDrinking = eatingDrinking;
-        // this.personalHouseholdMedicalServices = personalHouseholdMedicalServices;
-    }
-
-    public void setLeisureTimes(int leisureCategoryTotal)
-    {
-        this.leisureCategoryTotal = leisureCategoryTotal;
-        // this.attendingEvents = attendingEvents;
-        // this.visitingFriends = visitingFriends;
-        // this.TVOrRadio = TVOrRadio;
-        // this.otherLeisure = otherLeisure;
-    }
-
-    public void setOtherTime(int otherCategoryTotal)
-    {
-        this.otherCategoryTotal = otherCategoryTotal;
+    public void getTimeVal(string timeCategory) {
+        return categories[timeCategory];
     }
 
     public void setBetterLifeIndexData(
         int disposableIncome, int employmentRate, int supportNetwork,
         float lifeExpectancy, int selfReportedHealth, float lifeSatisfaction)
     {
-        this.disposableIncome = disposableIncome;
-        this.employmentRate = employmentRate;
-        this.supportNetwork = supportNetwork;
-        this.lifeExpectancy = lifeExpectancy;
-        this.selfReportedHealth = selfReportedHealth;
-        this.lifeSatisfaction = lifeSatisfaction;
-    }
-
-    public void setWorkToLeisureRatio(float workToLeisureRatio)
-    {
-        this.workToLeisureRatio = workToLeisureRatio;
-    }
-
-    public float getLifeSatisfaction()
-    {
-        return lifeSatisfaction;
-    }
-
-    public int getTotalWorkHours()
-    {
-        return paidWorkOrStudyCategoryTotal;
-    }
-
-    public float getWorkToLeisureRatio()
-    {
-        return workToLeisureRatio;
-    }
-
-    public int getSupportNetwork()
-    {
-        return supportNetwork;
-    }
-    public int getDisposableIncome()
-    {
-        return disposableIncome;
-    }
-
-    public float getLifeExpectancy()
-    {
-        return lifeExpectancy;
-    }
-
-    public int getSelfReportedHealth()
-    {
-        return selfReportedHealth;
+        categories["disposableIncome"] = disposableIncome;
+        categories["employmentRate"] = employmentRate;
+        categories["supportNetwork"] = supportNetwork;
+        categories["lifeExpectancy"] = lifeExpectancy;
+        categories["selfReportedHealth"] = selfReportedHealth;
+        categories["lifeSatisfaction"] = lifeSatisfaction;
     }
 }
