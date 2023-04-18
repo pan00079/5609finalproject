@@ -38,8 +38,8 @@ public class DataProcessor : MonoBehaviour
             GameObject go = datasetCollection.transform.GetChild(i).gameObject;
             CountryData data = go.GetComponent<CountryData>();
 
-            float lifeSatisfaction = data.getLifeSatisfaction();
-            int workHours = data.getTotalWorkHours();
+            float lifeSatisfaction = data.getTimeVal("lifeSatisfaction");
+            int workHours = (int) data.getTimeVal("paidWorkOrStudyCategoryTotal");
             
             float lerpAmtX = (lifeSatisfaction - minLifeSatisfaction) / (maxLifeSatisfaction - minLifeSatisfaction);
             float lerpAmtZ = (float) (workHours - minPaidWorkTime) / (maxPaidWorkTime - minPaidWorkTime);

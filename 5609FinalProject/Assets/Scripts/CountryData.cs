@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,39 +25,38 @@ public class CountryData : MonoBehaviour
     // Time Categories
     // @ Refactored into a large dictionary. Accessing/modifying category values
     //   is now as simply as checking categories["sleeping"].
-    Dictionary<string, dynamic> categories = new()
+    Dictionary<string, dynamic> categories = new Dictionary<string, dynamic>
     {
-        ["PaidWorkOrStudyCategoryTotal"] = 0,
-        ["PaidWorkJobs"] = 0,
-        ["TravelToFromWork"] = 0,
-        ["SchoolOrClasses"] = 0,
-        ["OtherPaidWork"] = 0,              // otherPaidWork includes hw, job searching and other
-
-        ["UnpaidWorkCategoryTotal"] = 0,
-        ["RoutineHousework"] = 0,           // includes household travel
-        ["CareForOthers"] = 0,              // includes all care categories, volunteering
-        ["OtherUnpaid"] = 0,                // includes shopping but not child/adult care 
-
-        ["PersonalCareCategoryTotal"] = 0,
-        ["Sleeping"] = 0,
-        ["EatingDrinking"] = 0,
-        ["PersonalHouseholdMedicalServices"] = 0,
-
-        ["LeisureCategoryTotal"] = 0,
-        ["AttendingEvents"] = 0,
-        ["VisitingFriends"] = 0,
-        ["TVOrRadio"] = 0,
-        ["OtherLeisure"] = 0,
-
-        ["OtherCategoryTotal"] = 0,
-
-                                            // Better Life Index Categories
-        ["DisposableIncome"] = 0,           // center color     
-        ["EmploymentRate"] = 0,
-        ["SupportNetwork"] = 0,             // stem length
-        ["LifeExpectancy"] = 0.0f,          // stem color
-        ["SelfReportedHealth"] = 0,         // flower color
-        ["LifeSatisfaction"] = 0.0f         // flower type
+        { "PaidWorkOrStudyCategoryTotal", 0 },
+        { "PaidWorkJobs", 0 },
+        { "TravelToFromWork", 0 },
+        { "SchoolOrClasses", 0 },
+        { "OtherPaidWork", 0 },              // otherPaidWork includes hw, job searching and other
+        
+        { "UnpaidWorkCategoryTotal", 0 },
+        { "RoutineHousework", 0 },           // includes household travel
+        { "CareForOthers", 0 },              // includes all care categories, volunteering
+        { "OtherUnpaid", 0 },                // includes shopping but not child/adult care 
+        
+        { "PersonalCareCategoryTotal", 0 },
+        { "Sleeping", 0 },
+        { "EatingDrinking", 0 },
+        { "PersonalHouseholdMedicalServices", 0 },
+        
+        { "LeisureCategoryTotal", 0 },
+        { "AttendingEvents", 0 },
+        { "VisitingFriends", 0 },
+        { "TVOrRadio", 0 },
+        { "OtherLeisure", 0 },
+        
+        { "OtherCategoryTotal", 0 },
+        
+        { "DisposableIncome", 0 },        // Better Life Index Categories
+        { "EmploymentRate", 0 },          // center color     
+        { "SupportNetwork", 0 },          // stem length
+        { "LifeExpectancy", 0.0f },       // stem color
+        { "SelfReportedHealth", 0 },      // flower color
+        { "LifeSatisfaction", 0.0f }      // flower type
     };
 
     // Derived Data
@@ -78,7 +78,7 @@ public class CountryData : MonoBehaviour
         };
         var bin = flowerTypeBins.First(
             bin => categories["LifeSatisfaction"] >= bin.Item1 && categories["LifeSatisfaction"] < bin.Item2);
-        flowerType = bin.Item3; // Item3 is the third item in the tuple (the flowertype)
+        flowerType = (FlowerType) bin.Item3; // Item3 is the third item in the tuple (the flowertype)
     }
 
     public void SetLabel() {
@@ -97,7 +97,7 @@ public class CountryData : MonoBehaviour
 
     public void setStemLength(float minLifeExpectancy, float maxLifeExpectancy)
     {
-        float lerpAmt = (float) (lifeExpectancy - minLifeExpectancy) / (maxLifeExpectancy - minLifeExpectancy);
+        float lerpAmt = (float) (categories["LifeExpectancy"] - minLifeExpectancy) / (maxLifeExpectancy - minLifeExpectancy);
         float length = Mathf.Lerp(1f, stemScalingFactor, lerpAmt);
         if (flowerType != FlowerType.SeedlingSix)
             enabledFlower.transform.GetChild(1).localScale = new Vector3(1f, length, 1f);
@@ -146,7 +146,7 @@ public class CountryData : MonoBehaviour
 
     public void setColorOfFlowerStem(int minSupport, int maxSupport)
     {
-        float val = (float)(supportNetwork - minSupport) / (maxSupport - minSupport);
+        float val = (float)(categories["SupportNetwork"] - minSupport) / (maxSupport - minSupport);
         Color color = gradientStem.Evaluate(val);
         MeshRenderer meshRenderer;
         if (flowerType != FlowerType.SeedlingSix)
@@ -171,10 +171,10 @@ public class CountryData : MonoBehaviour
     public void setTimeVal(string timeCategory, int value) {
         categories[timeCategory] = value;
     }
-    public void setTimeVal(string category, float value) {
+    public void setTimeVal(string timeCategory, float value) {
         categories[timeCategory] = value;
     }
-    public void getTimeVal(string timeCategory) {
+    public float getTimeVal(string timeCategory) {
         return categories[timeCategory];
     }
 
