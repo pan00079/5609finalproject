@@ -135,8 +135,8 @@ MonoBehaviour:
   label: {fileID: 8974485559243239809}
   gradientWater:
     serializedVersion: 2
-    key0: {r: 0.33962262, g: 0.09451762, b: 0.09451762, a: 1}
-    key1: {r: 0.3773585, g: 0.19616476, b: 0.1548594, a: 1}
+    key0: {r: 0.3773585, g: 0, b: 0, a: 1}
+    key1: {r: 0.4528302, g: 0.16495852, b: 0.09611963, a: 1}
     key2: {r: 0.509434, g: 0.22347811, b: 0.42722157, a: 0}
     key3: {r: 0.42205423, g: 0.27843142, b: 0.7647059, a: 0}
     key4: {r: 0.2951673, g: 0.38453242, b: 0.9339623, a: 0}
@@ -144,9 +144,9 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 15806
-    ctime2: 31997
-    ctime3: 52428
+    ctime1: 24287
+    ctime2: 39321
+    ctime3: 54934
     ctime4: 65535
     ctime5: 65535
     ctime6: 0
@@ -491,7 +491,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9d940b1d4c191494e988d20d92f1d42a, type: 2}
+  - {fileID: 2100000, guid: f198960d0ebfb6644a811d5f0b7723f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

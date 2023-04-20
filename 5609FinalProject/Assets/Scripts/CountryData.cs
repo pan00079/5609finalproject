@@ -170,8 +170,8 @@ public class CountryData : MonoBehaviour
             float val = (float) (2.03f - workToLeisureRatio) / (2.03f - 0.63f);
             Color color = gradientWater.Evaluate(val);
             MeshRenderer meshRenderer = transform.GetChild(1).GetComponent<MeshRenderer>();
-            color.a = 0.80f;
-            meshRenderer.material.SetColor("_Color", color);
+            color.a = 0.85f;
+            meshRenderer.material.SetColor("_WaterColor", color);
         }
     }
 
