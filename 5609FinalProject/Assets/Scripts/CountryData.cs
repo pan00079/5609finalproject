@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,7 @@ public class CountryData : MonoBehaviour
     // Time Categories
     // @ Refactored into a large dictionary. Accessing/modifying category values
     //   is now as simply as checking categories["sleeping"].
-    Dictionary<string, dynamic> categories = new Dictionary<string, dynamic>
+    Dictionary<string, int> categories = new Dictionary<string, int>
     {
         { "PaidWorkOrStudyCategoryTotal", 0 },
         { "PaidWorkJobs", 0 },
@@ -54,10 +55,12 @@ public class CountryData : MonoBehaviour
         { "DisposableIncome", 0 },        // Better Life Index Categories
         { "EmploymentRate", 0 },          // center color     
         { "SupportNetwork", 0 },          // stem length
-        { "LifeExpectancy", 0.0f },       // stem color
         { "SelfReportedHealth", 0 },      // flower color
-        { "LifeSatisfaction", 0.0f }      // flower type
     };
+
+    // these are seperate from the dict bc they are floats
+    float lifeExpectancy; // stem color
+    float lifeSatisfaction; // flower type
 
     // Derived Data
     float workToLeisureRatio;
@@ -76,9 +79,11 @@ public class CountryData : MonoBehaviour
             Tuple.Create(7f, 7.5f, FlowerType.AlmostGrownTwo),
             Tuple.Create(7.5f, float.MaxValue, FlowerType.FullyGrownOne),
         };
-        var bin = flowerTypeBins.First(
-            bin => categories["LifeSatisfaction"] >= bin.Item1 && categories["LifeSatisfaction"] < bin.Item2);
-        flowerType = (FlowerType) bin.Item3; // Item3 is the third item in the tuple (the flowertype)
+        var bin = flowerTypeBins.FirstOrDefault(
+        bin => lifeSatisfaction >= bin.Item1 && lifeSatisfaction < bin.Item2);
+        if (bin != null) {
+            flowerType = (FlowerType) bin.Item3; // Item3 is the third item in the tuple (the flowertype)
+        }
     }
 
     public void SetLabel() {
@@ -90,14 +95,14 @@ public class CountryData : MonoBehaviour
     // @ Refactored to not be if/switch since enums have an implicit int value.
     public void SetValuesBasedOnFlowerType()
     {
-        stemScalingFactor = 2f + 0.05f * flowerType;
-        enabledFlower = transform.GetChild(flowerType + 2).gameObject;
+        stemScalingFactor = 2f + 0.05f * (int) flowerType;
+        enabledFlower = transform.GetChild((int) flowerType + 2).gameObject;
         enabledFlower.SetActive(true);
     }
 
     public void setStemLength(float minLifeExpectancy, float maxLifeExpectancy)
     {
-        float lerpAmt = (float) (categories["LifeExpectancy"] - minLifeExpectancy) / (maxLifeExpectancy - minLifeExpectancy);
+        float lerpAmt = (float) (lifeExpectancy - minLifeExpectancy) / (maxLifeExpectancy - minLifeExpectancy);
         float length = Mathf.Lerp(1f, stemScalingFactor, lerpAmt);
         if (flowerType != FlowerType.SeedlingSix)
             enabledFlower.transform.GetChild(1).localScale = new Vector3(1f, length, 1f);
@@ -118,7 +123,7 @@ public class CountryData : MonoBehaviour
 
     public void setColorOfFlowerCenter(int minIncome, int maxIncome)
     {
-        float val = (float)(disposableIncome - minIncome) / (maxIncome - minIncome);
+        float val = (float)(categories["DisposableIncome"] - minIncome) / (maxIncome - minIncome);
         Color color = gradientCenter.Evaluate(val);
         MeshRenderer meshRenderer;
         if (flowerType != FlowerType.SeedlingSix)
@@ -136,7 +141,7 @@ public class CountryData : MonoBehaviour
     {
         if (flowerType != FlowerType.SeedlingSix)
         {
-            float val = (float)(selfReportedHealth - minHealth) / (maxHealth - minHealth);
+            float val = (float)(categories["SelfReportedHealth"] - minHealth) / (maxHealth - minHealth);
             Color color = gradientPetals.Evaluate(val);
             MeshRenderer meshRenderer;
             meshRenderer = enabledFlower.transform.GetChild(0).GetComponent<MeshRenderer>();
@@ -168,25 +173,54 @@ public class CountryData : MonoBehaviour
     }
 
     // @ Doing this so we don't need 100 getters/setters for each category value.
-    public void setTimeVal(string timeCategory, int value) {
+    public void setTimeVal(string timeCategory, int value)
+    {
         categories[timeCategory] = value;
     }
-    public void setTimeVal(string timeCategory, float value) {
-        categories[timeCategory] = value;
-    }
-    public float getTimeVal(string timeCategory) {
+    public float getTimeVal(string timeCategory)
+    {
         return categories[timeCategory];
     }
 
     public void setBetterLifeIndexData(
         int disposableIncome, int employmentRate, int supportNetwork,
-        float lifeExpectancy, int selfReportedHealth, float lifeSatisfaction)
+        float expectancy, int selfReportedHealth, float satisfaction)
     {
-        categories["disposableIncome"] = disposableIncome;
-        categories["employmentRate"] = employmentRate;
-        categories["supportNetwork"] = supportNetwork;
-        categories["lifeExpectancy"] = lifeExpectancy;
-        categories["selfReportedHealth"] = selfReportedHealth;
-        categories["lifeSatisfaction"] = lifeSatisfaction;
+        categories["DisposableIncome"] = disposableIncome;
+        categories["EmploymentRate"] = employmentRate;
+        categories["SupportNetwork"] = supportNetwork;
+        lifeExpectancy = expectancy;
+        categories["SelfReportedHealth"] = selfReportedHealth;
+        lifeSatisfaction = satisfaction;
+    }
+
+    public void setWorkToLeisureRatio(float workToLeisureRatio)
+    {
+        this.workToLeisureRatio = workToLeisureRatio;
+    }
+
+    public float getWorkToLeisureRatio()
+    {
+        return workToLeisureRatio;
+    }
+
+    public float getLifeExpectancy()
+    {
+        return lifeExpectancy;
+    }
+
+    public float getLifeSatisfaction()
+    {
+        return lifeSatisfaction;
+    }
+
+    public void setLifeExpectancy(float f)
+    {
+        lifeExpectancy = f;
+    }
+
+    public void setLifeSatisfaction(float f) 
+    {
+        lifeSatisfaction = f;
     }
 }

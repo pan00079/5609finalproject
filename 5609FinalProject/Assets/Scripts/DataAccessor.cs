@@ -89,33 +89,33 @@ public class DataAccessor : MonoBehaviour
             }
         }
 
-        CountryData[] minMaxArray = listOfCountries.OrderBy(country => country.getTimeVal("lifeSatisfaction").ToArray());
-        float minLifeSatisfaction = minMaxArray[0].getTimeVal("lifeSatisfaction");
-        float maxLifeSatisfaction = minMaxArray[minMaxArray.Length - 1].getTimeVal("lifeSatisfaction");
+        CountryData[] minMaxArray = listOfCountries.OrderBy(country => country.getLifeSatisfaction()).ToArray();
+        float minLifeSatisfaction = minMaxArray[0].getLifeSatisfaction();
+        float maxLifeSatisfaction = minMaxArray[minMaxArray.Length - 1].getLifeSatisfaction();
 
-        minMaxArray = listOfCountries.OrderBy(country => country.getTotalWorkHours()).ToArray();
-        int minPaidWorkTime = minMaxArray[0].getTimeVal("PaidWorkOrStudyCategoryTotal");
-        int maxPaidWorkTime = minMaxArray[minMaxArray.Length - 1].getTimeVal("PaidWorkOrStudyCategoryTotal");
+        minMaxArray = listOfCountries.OrderBy(country => country.getTimeVal("PaidWorkOrStudyCategoryTotal")).ToArray();
+        int minPaidWorkTime = (int) minMaxArray[0].getTimeVal("PaidWorkOrStudyCategoryTotal");
+        int maxPaidWorkTime = (int) minMaxArray[minMaxArray.Length - 1].getTimeVal("PaidWorkOrStudyCategoryTotal");
 
         minMaxArray = listOfCountries.OrderBy(country => country.getWorkToLeisureRatio()).ToArray();
         float minWorkToLeisureRatio = minMaxArray[0].getWorkToLeisureRatio();
         float maxWorkToLeisureRatio = minMaxArray[minMaxArray.Length - 1].getWorkToLeisureRatio();
 
         minMaxArray = listOfCountries.OrderBy(country => country.getTimeVal("SupportNetwork")).ToArray();
-        int minSupport = minMaxArray[0].getTimeVal("SupportNetwork");
-        int maxSupport = minMaxArray[minMaxArray.Length - 1].getTimeVal("SupportNetwork");
+        int minSupport = (int) minMaxArray[0].getTimeVal("SupportNetwork");
+        int maxSupport = (int) minMaxArray[minMaxArray.Length - 1].getTimeVal("SupportNetwork");
 
         minMaxArray = listOfCountries.OrderBy(country => country.getTimeVal("DisposableIncome")).ToArray();
-        int minIncome = minMaxArray[1].getTimeVal("DisposableIncome");
-        int maxIncome = minMaxArray[minMaxArray.Length - 1].getTimeVal("DisposableIncome");
+        int minIncome = (int) minMaxArray[1].getTimeVal("DisposableIncome");
+        int maxIncome = (int) minMaxArray[minMaxArray.Length - 1].getTimeVal("DisposableIncome");
 
         minMaxArray = listOfCountries.OrderBy(country => country.getTimeVal("SelfReportedHealth")).ToArray();
-        int minHealth = minMaxArray[0].getTimeVal("SelfReportedHealth");
-        int maxHealth = minMaxArray[minMaxArray.Length - 1].getTimeVal("SelfReportedHealth");
+        int minHealth = (int) minMaxArray[0].getTimeVal("SelfReportedHealth");
+        int maxHealth = (int) minMaxArray[minMaxArray.Length - 1].getTimeVal("SelfReportedHealth");
 
-        minMaxArray = listOfCountries.OrderBy(country => country.getTimeVal("LifeExpectancy")).ToArray();
-        float minLifeExpectancy = minMaxArray[0].getTimeVal("LifeExpectancy");
-        float maxLifeExpectancy = minMaxArray[minMaxArray.Length - 1].getTimeVal("LifeExpectancy");
+        minMaxArray = listOfCountries.OrderBy(country => country.getLifeExpectancy()).ToArray();
+        float minLifeExpectancy = (int) minMaxArray[0].getLifeExpectancy();
+        float maxLifeExpectancy = (int) minMaxArray[minMaxArray.Length - 1].getLifeExpectancy();
 
         DataProcessor processorComponent = dataProcessor.GetComponent<DataProcessor>();
         processorComponent.setMinAndMaxValues(minLifeSatisfaction, minPaidWorkTime, minWorkToLeisureRatio,
