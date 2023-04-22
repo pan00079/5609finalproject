@@ -131,8 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a9f9e460e3e2b4e936c75ee7c978c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countryType: 0
+  flowerType: 0
   label: {fileID: 8974485559243239809}
+  id: 0
   gradientWater:
     serializedVersion: 2
     key0: {r: 0.3773585, g: 0, b: 0, a: 1}
@@ -249,7 +250,6 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  id: 0
 --- !u!1 &4534139272924437875
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,7 +644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7357251208105192461, guid: 62edbb4c0290cc842acab3db440d8bdf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7357251208105192461, guid: 62edbb4c0290cc842acab3db440d8bdf, type: 3}
       propertyPath: m_LocalScale.z

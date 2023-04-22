@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackTex_1:
-        m_Texture: {fileID: 2800000, guid: ede0c531f3e788e4eb4583002c760b2d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4676adb9ddb10894aa1ab60ff29414f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex_2:
@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DownTex_1:
-        m_Texture: {fileID: 2800000, guid: 3f604e637f058c446b0764c5f713a1e8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 613ad9ff0287a7c4d86a5d958e4313b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DownTex_2:
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex_1:
-        m_Texture: {fileID: 2800000, guid: cba7f06c484374d4294367a2f24ef4df, type: 3}
+        m_Texture: {fileID: 2800000, guid: 73b8b1e94ef7fd841aaca0854f7252ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex_2:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LeftTex_1:
-        m_Texture: {fileID: 2800000, guid: a15506ae0e4838149b25c00cd8af36c1, type: 3}
+        m_Texture: {fileID: 2800000, guid: a9e6ef292edb96e418e6e0fd44a2ef1b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LeftTex_2:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightTex_1:
-        m_Texture: {fileID: 2800000, guid: ed3bb36cf52f0fc42b747403264ec5a9, type: 3}
+        m_Texture: {fileID: 2800000, guid: e4051bfa471d28d49bcbdd95f4265a75, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightTex_2:
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex_1:
-        m_Texture: {fileID: 2800000, guid: 95bbdcf4ca504cd418f827c63be23bd9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 68ed1953a000a7744adfde23d5aba737, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex_2:
@@ -68,8 +68,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Blend: 1
-    - _BlendMode: 0
+    - _Blend: 0.7
+    - _BlendMode: 5
     - _Exposure: 1
     - _InvertColors: 0
     - _Rotation: 0

@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseRot = new Vector2(0, -15);
+        mouseRot = new Vector2(0, -25);
         defaultCamPos = Camera.main.transform.position;
         defaultCamRot = Camera.main.transform.rotation;
         topDown.enabled = false;

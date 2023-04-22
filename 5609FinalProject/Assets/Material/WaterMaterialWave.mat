@@ -80,7 +80,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EdgeFoamLevel: 1.08
+    - _EdgeFoamLevel: 1.5
     - _EdgeFoamLevelDestination: 2.1
     - _EdgeFoamPower: 1
     - _FoamOpacity: 0.5

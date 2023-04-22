@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CountryData : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class CountryData : MonoBehaviour
     public FlowerType flowerType; // @ renamed from countryType
     float stemScalingFactor;
     GameObject enabledFlower;
-    public Text label;
+    Outline outline;
 
     // Time Dataset
     public int id;
@@ -28,29 +29,29 @@ public class CountryData : MonoBehaviour
     //   is now as simply as checking categories["sleeping"].
     Dictionary<string, int> categories = new Dictionary<string, int>
     {
-        { "PaidWorkOrStudyCategoryTotal", 0 },
+        { "PaidWorkOrStudyTotal", 0 },
         { "PaidWorkJobs", 0 },
         { "TravelToFromWork", 0 },
         { "SchoolOrClasses", 0 },
         { "OtherPaidWork", 0 },              // otherPaidWork includes hw, job searching and other
         
-        { "UnpaidWorkCategoryTotal", 0 },
+        { "UnpaidWorkTotal", 0 },
         { "RoutineHousework", 0 },           // includes household travel
         { "CareForOthers", 0 },              // includes all care categories, volunteering
         { "OtherUnpaid", 0 },                // includes shopping but not child/adult care 
         
-        { "PersonalCareCategoryTotal", 0 },
+        { "PersonalCareTotal", 0 },
         { "Sleeping", 0 },
         { "EatingDrinking", 0 },
-        { "PersonalHouseholdMedicalServices", 0 },
+        { "HouseholdMedicalServices", 0 },
         
-        { "LeisureCategoryTotal", 0 },
+        { "LeisureTotal", 0 },
         { "AttendingEvents", 0 },
         { "VisitingFriends", 0 },
         { "TVOrRadio", 0 },
         { "OtherLeisure", 0 },
         
-        { "OtherCategoryTotal", 0 },
+        { "OtherTotal", 0 },
         
         { "DisposableIncome", 0 },        // Better Life Index Categories
         { "EmploymentRate", 0 },          // center color     
@@ -65,9 +66,18 @@ public class CountryData : MonoBehaviour
     // Derived Data
     float workToLeisureRatio;
 
-    void Start() { }
+    void Start() {
+        outline = gameObject.AddComponent<Outline>();
+        outline.OutlineWidth = 3.5f;
+        outline.enabled = false;
+    }
 
     void Update() { }
+
+    public void SetLightingIfSelected(bool selected)
+    {
+        outline.enabled = selected;
+    }
 
     public void SetFlowerTypeBasedOnLifeSatisfaction()
     {
@@ -87,15 +97,15 @@ public class CountryData : MonoBehaviour
     }
 
     public void SetLabel() {
-        Text label = this.GetComponentInChildren<Text>();
+        TextMeshProUGUI label = GetComponentInChildren<TextMeshProUGUI>();
         label.text = name;
-        label.GetComponent<RectTransform>().position = this.transform.position;
+
     }
 
     // @ Refactored to not be if/switch since enums have an implicit int value.
-    public void SetValuesBasedOnFlowerType()
+    public void SetValuesBasedOnFlowerType() 
     {
-        stemScalingFactor = 2f + 0.05f * (int) flowerType;
+        stemScalingFactor = 1.92857f + 0.188571f * (int) flowerType;
         enabledFlower = transform.GetChild((int) flowerType + 2).gameObject;
         enabledFlower.SetActive(true);
     }
@@ -105,9 +115,16 @@ public class CountryData : MonoBehaviour
         float lerpAmt = (float) (lifeExpectancy - minLifeExpectancy) / (maxLifeExpectancy - minLifeExpectancy);
         float length = Mathf.Lerp(1f, stemScalingFactor, lerpAmt);
         if (flowerType != FlowerType.SeedlingSix)
-            enabledFlower.transform.GetChild(1).localScale = new Vector3(1f, length, 1f);
+        {
+            float thickness = enabledFlower.transform.GetChild(1).localScale.x;
+            enabledFlower.transform.GetChild(1).localScale = new Vector3(thickness, length, thickness);
+        }
+            
         else
-            enabledFlower.transform.localScale = new Vector3(1f, length, 1f);
+        {
+            float thickness = enabledFlower.transform.localScale.x;
+            enabledFlower.transform.localScale = new Vector3(thickness, length, thickness);
+        }
     }
 
     public void setColorOfWater()
