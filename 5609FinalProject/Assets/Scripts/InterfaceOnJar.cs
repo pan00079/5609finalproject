@@ -8,12 +8,15 @@ public class InterfaceOnJar: MonoBehaviour
     GameObject selectedJar;
     Dictionary<string, int> totals = new Dictionary<string, int>();
     // Should be read in instead, but they're just here for now for ease of use
+    string countryName;
     int MAX_TOTAL = 752;
     int MIN_TOTAL = 6;
 
     void Start()
     {
         selectedJar = null;
+        Canvas canvas = GameObject.Find("Canvas2D").GetComponent<Canvas>();
+        canvas.enabled = false;
         Debug.Log("Starting Interface");
     }
 
@@ -29,13 +32,28 @@ public class InterfaceOnJar: MonoBehaviour
                 {
                     selectedJar = hit.transform.gameObject;
                     CountryData countryData = selectedJar.GetComponent<CountryData>();
+                    if (countryName == countryData.getName()) {
+                        updateVisibility();
+                        return;
+                    }
                     fillRelevantInformation(countryData);
                     setBars(countryData.getName());
-
+                    updateVisibility(true);
+                } else {
+                    updateVisibility(false);
                 }
-                
             }
         }
+    }
+
+    void updateVisibility(bool enable) {
+        Canvas canvas = GameObject.Find("Canvas2D").GetComponent<Canvas>();
+        canvas.enabled = enable;
+    }
+
+    void updateVisibility() {
+        Canvas canvas = GameObject.Find("Canvas2D").GetComponent<Canvas>();
+        canvas.enabled = !canvas.enabled;
     }
 
     // updates based on 
@@ -58,6 +76,7 @@ public class InterfaceOnJar: MonoBehaviour
         }
         // set country name
         Text countryName = canvasTransform.Find("Country").GetComponent<Text>();
+        this.countryName = countryName.text;
         countryName.text = name;
     }
 
