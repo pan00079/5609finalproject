@@ -34,7 +34,7 @@ public class LightingOnJarSelect : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
 
-                Debug.Log(hitInfo.transform.gameObject.name);
+                // Debug.Log(hitInfo.transform.gameObject.name);
                 if (hitInfo.transform.gameObject.tag == "FlowerJar")
                 {
                     if (selectedJar != null)

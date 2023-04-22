@@ -194,7 +194,7 @@ public class CountryData : MonoBehaviour
     {
         categories[timeCategory] = value;
     }
-    public float getTimeVal(string timeCategory)
+    public int getTimeVal(string timeCategory)
     {
         return categories[timeCategory];
     }
@@ -239,5 +239,9 @@ public class CountryData : MonoBehaviour
     public void setLifeSatisfaction(float f) 
     {
         lifeSatisfaction = f;
+    }
+
+    public string getName() {
+        return this.name;
     }
 }
